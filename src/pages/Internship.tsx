@@ -21,9 +21,25 @@ interface PositionCategory {
   items: string[];
 }
 
+const FALLBACK_POSITIONS: PositionCategory[] = [
+  { title: "Agentic Builder", items: ["Internship Program", "Part-time", "Full-time"] },
+  { title: "Backend", items: ["Python Developer", "Node.js Developer", "Go Developer"] },
+  { title: "Content / Marketing", items: ["Content Creator", "Digital Marketing", "Social Media Manager"] },
+  { title: "Data Science", items: ["Data Analyst", "Data Engineer", "Machine Learning Engineer"] },
+  { title: "Graphic", items: ["Graphic Designer", "Motion Graphics", "Art Director"] },
+  { title: "Meta", items: ["Metaverse Developer", "3D Modeler", "Unity Developer"] },
+  { title: "NLP", items: ["NLP Engineer", "Linguist", "AI Researcher"] },
+  { title: "Sales", items: ["Sales Executive", "Account Manager", "Business Development"] },
+  { title: "Software Development", items: ["Full Stack Developer", "Frontend Developer", "Software Engineer"] },
+  { title: "TTS/ASR", items: ["Speech Engineer", "Audio Engineer", "Signal Processing"] },
+  { title: "UX/UI", items: ["UX Researcher", "UI Designer", "Product Designer"] },
+  { title: "Web App", items: ["React Developer", "Vue Developer", "Angular Developer"] },
+];
+
 const Internship = () => {
-  const [positions, setPositions] = useState<PositionCategory[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // Initialize with fallback positions immediately so UI is never empty
+  const [positions, setPositions] = useState<PositionCategory[]>(FALLBACK_POSITIONS);
+  const [isLoading, setIsLoading] = useState(false); // Don't show loading initially since we have fallback data
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -38,11 +54,12 @@ const Internship = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Fetch positions from Supabase
+  // Fetch positions from Supabase (silently update if successful)
   useEffect(() => {
     let isMounted = true;
 
     const fetchPositions = async () => {
+      // Note: We don't set isLoading(true) here because we want to show fallback data immediately
       try {
         const { data, error } = await supabase
           .from('internship_positions')
@@ -53,24 +70,27 @@ const Internship = () => {
 
         if (error) throw error;
 
-        if (data) {
+        if (data && data.length > 0) {
           setPositions(data);
-        }
+        } 
+        // If data is empty, we keep the fallback positions
       } catch (error: any) {
         if (!isMounted) return;
         
         // Ignore AbortError which can happen during rapid component mounting/unmounting
-        if (error.name === 'AbortError' || error.message?.includes('aborted')) {
+        // Check both error object properties and string representation to be safe
+        const isAbortError = 
+          error.name === 'AbortError' || 
+          error.message?.toLowerCase().includes('aborted') ||
+          String(error).toLowerCase().includes('abort');
+
+        if (isAbortError) {
           return;
         }
 
         console.error('Error fetching positions:', error);
-        toast.error("Failed to load positions. Please refresh the page.");
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
+        // We already have fallback positions, so no action needed on error
+      } 
     };
 
     fetchPositions();
