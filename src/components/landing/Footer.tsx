@@ -1,9 +1,8 @@
-import { forwardRef } from "react";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { BotnoiLogo } from "@/components/ui/botnoi-logo";
 
-export const Footer = forwardRef<HTMLElement>((_, ref) => {
+export const Footer = () => {
   return (
     <footer className="bg-navy py-12">
       <div className="container mx-auto px-4">
@@ -36,6 +35,4 @@ export const Footer = forwardRef<HTMLElement>((_, ref) => {
       </div>
     </footer>
   );
-});
-
-Footer.displayName = "Footer";
+};
