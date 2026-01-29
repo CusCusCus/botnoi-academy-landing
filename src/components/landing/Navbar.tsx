@@ -29,13 +29,11 @@ export const Navbar = () => {
   const handleNavigation = (href: string) => {
     setIsMobileMenuOpen(false);
     
-    // Handle external or page navigation
     if (!href.startsWith("/#") && href !== "/") {
       navigate(href);
       return;
     }
 
-    // Handle hash navigation
     if (href === "/") {
       if (location.pathname !== "/") {
         navigate("/");
@@ -45,12 +43,10 @@ export const Navbar = () => {
       return;
     }
 
-    // Handle hash links like /#contact
     if (href.startsWith("/#")) {
-      const hash = href.substring(1); // #contact
+      const hash = href.substring(1);
       if (location.pathname !== "/") {
         navigate("/");
-        // We rely on the browser or a separate effect to handle the hash scroll after navigation
         setTimeout(() => {
           const element = document.querySelector(hash);
           if (element) element.scrollIntoView({ behavior: "smooth" });
@@ -64,27 +60,55 @@ export const Navbar = () => {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-6 pointer-events-none"
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-5 pointer-events-none"
     >
-      <div 
+      {/* Ambient gradient background effect */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-20 left-1/4 w-96 h-96 bg-gradient-to-r from-soft-pink/30 to-sky-blue/20 rounded-full blur-3xl opacity-60" />
+        <div className="absolute -top-10 right-1/4 w-72 h-72 bg-gradient-to-l from-sky-blue/25 to-soft-pink/15 rounded-full blur-3xl opacity-50" />
+      </div>
+
+      <motion.div 
         className={`
-          pointer-events-auto
-          flex items-center justify-between px-6 py-3 rounded-full 
-          transition-all duration-500 ease-in-out
-          backdrop-blur-2xl
-          border border-white/40
-          shadow-[0_8px_32px_0_rgba(31,38,135,0.1)]
-          ${
-            isScrolled
-              ? "bg-white/70 translate-y-0 shadow-lg"
-              : "bg-white/30 translate-y-2 shadow-md hover:bg-white/40"
+          pointer-events-auto relative
+          flex items-center justify-between px-2 py-2 
+          transition-all duration-700 ease-out
+          ${isScrolled 
+            ? "w-[88%] md:w-auto" 
+            : "w-[92%] md:w-auto"
           }
-          w-[90%] md:w-auto gap-4 md:gap-8
         `}
       >
+        {/* Liquid glass container */}
+        <div 
+          className={`
+            absolute inset-0 rounded-[2rem]
+            transition-all duration-700 ease-out
+            ${isScrolled
+              ? "bg-white/60 dark:bg-navy/40 shadow-[0_8px_40px_-12px_rgba(45,62,114,0.25),inset_0_1px_1px_rgba(255,255,255,0.8)]"
+              : "bg-white/40 dark:bg-navy/25 shadow-[0_4px_30px_-8px_rgba(45,62,114,0.15),inset_0_1px_1px_rgba(255,255,255,0.6)]"
+            }
+            backdrop-blur-2xl backdrop-saturate-[1.8]
+            border border-white/50 dark:border-white/20
+          `}
+          style={{
+            background: isScrolled 
+              ? 'linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(248,194,220,0.15) 50%, rgba(102,177,255,0.1) 100%)'
+              : 'linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(248,194,220,0.1) 50%, rgba(102,177,255,0.08) 100%)',
+          }}
+        >
+          {/* Inner glow effect */}
+          <div className="absolute inset-[1px] rounded-[calc(2rem-1px)] bg-gradient-to-b from-white/40 to-transparent pointer-events-none" />
+          
+          {/* Refraction highlight */}
+          <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+        </div>
+
+        {/* Content */}
+        <div className="relative flex items-center justify-between w-full gap-4 md:gap-6 px-4 py-1">
           {/* Logo */}
           <motion.a
             href="/"
@@ -92,16 +116,118 @@ export const Navbar = () => {
               e.preventDefault();
               handleNavigation("/");
             }}
-            className="flex items-center gap-3 text-2xl font-bold text-primary whitespace-nowrap"
-            whileHover={{ scale: 1.05 }}
+            className="flex items-center gap-2.5 text-xl font-semibold text-primary whitespace-nowrap"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <BotnoiLogo className="w-10 h-10 text-primary" />
-            <span>BOTNOI ACADEMY</span>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-soft-pink to-sky-blue rounded-xl blur-md opacity-60" />
+              <div className="relative bg-white/80 rounded-xl p-1.5 backdrop-blur-sm border border-white/50">
+                <BotnoiLogo className="w-7 h-7 text-primary" />
+              </div>
+            </div>
+            <span className="bg-gradient-to-r from-primary via-navy-light to-primary bg-clip-text text-transparent font-bold tracking-tight">
+              BOTNOI ACADEMY
+            </span>
           </motion.a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
+          <div className="hidden md:flex items-center gap-1 bg-white/30 dark:bg-white/10 rounded-2xl p-1.5 backdrop-blur-lg border border-white/40">
+            {navLinks.map((link) => {
+              const isActive = (link.href === "/" && location.pathname === "/") ||
+                (link.href !== "/" && location.pathname === link.href);
+              
+              return (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation(link.href);
+                  }}
+                  className={`
+                    relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300
+                    ${isActive
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-primary"
+                    }
+                  `}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNavBg"
+                      className="absolute inset-0 bg-white/70 dark:bg-white/20 rounded-xl shadow-sm"
+                      style={{
+                        boxShadow: '0 2px 12px -4px rgba(45,62,114,0.15), inset 0 1px 1px rgba(255,255,255,0.8)'
+                      }}
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative z-10">{link.label}</span>
+                </motion.a>
+              );
+            })}
+          </div>
+
+          {/* Apply Now Button */}
+          <motion.button
+            whileHover={{ scale: 1.03, y: -1 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => handleNavigation("/internship")}
+            className="hidden md:flex items-center gap-2 relative overflow-hidden group"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-navy-light to-primary rounded-2xl opacity-90 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-[1px] bg-gradient-to-b from-white/20 to-transparent rounded-[calc(1rem-1px)]" />
+            <span className="relative text-white px-5 py-2.5 text-sm font-semibold tracking-wide">
+              Apply Now
+            </span>
+          </motion.button>
+
+          {/* Mobile Menu Button */}
+          <motion.button
+            className="md:hidden relative p-2.5 rounded-xl bg-white/50 backdrop-blur-lg border border-white/40 text-primary"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <motion.div
+              animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </motion.div>
+          </motion.button>
+        </div>
+      </motion.div>
+
+      {/* Mobile Menu Dropdown */}
+      <motion.div
+        initial={false}
+        animate={{
+          opacity: isMobileMenuOpen ? 1 : 0,
+          y: isMobileMenuOpen ? 0 : -20,
+          scale: isMobileMenuOpen ? 1 : 0.95,
+          pointerEvents: isMobileMenuOpen ? "auto" : "none"
+        }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute top-24 left-4 right-4 md:hidden pointer-events-auto"
+      >
+        <div 
+          className="relative rounded-3xl p-5 overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(248,194,220,0.2) 50%, rgba(102,177,255,0.15) 100%)',
+          }}
+        >
+          {/* Glass effects */}
+          <div className="absolute inset-0 backdrop-blur-2xl backdrop-saturate-[1.8]" />
+          <div className="absolute inset-0 border border-white/50 rounded-3xl" />
+          <div className="absolute inset-[1px] rounded-[calc(1.5rem-1px)] bg-gradient-to-b from-white/50 to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+          
+          <div className="relative flex flex-col gap-2">
+            {navLinks.map((link, index) => (
               <motion.a
                 key={link.label}
                 href={link.href}
@@ -109,71 +235,29 @@ export const Navbar = () => {
                   e.preventDefault();
                   handleNavigation(link.href);
                 }}
-                className={`
-                  relative px-4 py-2 rounded-full text-sm font-medium transition-colors
-                  ${
-                    (link.href === "/" && location.pathname === "/") ||
-                    (link.href !== "/" && location.pathname === link.href)
-                      ? "text-primary bg-white/50"
-                      : "text-muted-foreground hover:text-primary hover:bg-white/30"
-                  }
-                `}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="text-foreground/80 hover:text-primary font-medium py-3 px-4 text-center rounded-xl hover:bg-white/50 transition-all duration-300"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: isMobileMenuOpen ? 1 : 0, x: isMobileMenuOpen ? 0 : -20 }}
+                transition={{ delay: index * 0.05 + 0.1 }}
               >
                 {link.label}
               </motion.a>
             ))}
-          </div>
-
-          {/* Apply Now Button */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleNavigation("/internship")}
-            className="hidden md:block bg-primary text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-primary/90 transition-colors shadow-md"
-          >
-            Apply Now
-          </motion.button>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 text-primary"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X /> : <Menu />}
-          </button>
-      </div>
-
-      {/* Mobile Menu Dropdown */}
-      {isMobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -20, scale: 0.95 }}
-          className="absolute top-24 left-4 right-4 bg-white/80 backdrop-blur-xl border border-white/40 rounded-3xl p-6 shadow-2xl pointer-events-auto md:hidden flex flex-col gap-4"
-        >
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavigation(link.href);
-              }}
-              className="text-foreground/80 hover:text-primary font-medium py-3 text-center border-b border-white/20 last:border-none"
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: isMobileMenuOpen ? 1 : 0, y: isMobileMenuOpen ? 0 : 10 }}
+              transition={{ delay: 0.3 }}
             >
-              {link.label}
-            </a>
-          ))}
-          <Button
-            onClick={() => handleNavigation("/#contact")}
-            className="rounded-full bg-primary hover:bg-navy-light w-full mt-2"
-          >
-            Apply Now
-          </Button>
-        </motion.div>
-      )}
+              <Button
+                onClick={() => handleNavigation("/internship")}
+                className="w-full mt-3 rounded-2xl bg-gradient-to-r from-primary to-navy-light hover:opacity-90 text-white font-semibold py-6"
+              >
+                Apply Now
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
     </motion.nav>
   );
 };
