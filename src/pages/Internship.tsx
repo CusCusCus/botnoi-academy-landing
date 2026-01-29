@@ -143,7 +143,7 @@ const Internship = () => {
         
         <Navbar />
         
-        <div className="container mx-auto px-4 pt-32 pb-40">
+        <div className="container mx-auto px-4 pt-40 pb-40">
           {/* Animated Mascot Area */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
