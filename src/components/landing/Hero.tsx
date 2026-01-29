@@ -50,48 +50,48 @@ export const Hero = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.7 }}
-            className="relative mb-8"
+            className="relative mb-8 mt-8"
           >
             {/* Main Robot */}
-            <div className="w-48 h-48 md:w-64 md:h-64 bg-gradient-to-br from-sky-blue to-soft-pink rounded-4xl flex items-center justify-center shadow-soft animate-float">
-              <Bot className="w-24 h-24 md:w-32 md:h-32 text-primary" />
+            <div className="w-48 h-48 md:w-64 md:h-64 bg-gradient-to-br from-white via-soft-pink/20 to-sky-blue/20 rounded-[3rem] flex items-center justify-center shadow-lg border border-white/50 animate-float backdrop-blur-sm">
+              <Bot className="w-24 h-24 md:w-32 md:h-32 text-primary" strokeWidth={1.5} />
             </div>
 
             {/* Floating Icons */}
             <motion.div
-              className="absolute -top-4 -left-8 w-16 h-16 bg-soft-pink rounded-full flex items-center justify-center shadow-card animate-float-delayed"
+              className="absolute -top-6 -left-6 w-14 h-14 bg-soft-pink rounded-full flex items-center justify-center shadow-md animate-float-delayed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1 }}
             >
-              <Users className="w-8 h-8 text-primary" />
+              <Users className="w-7 h-7 text-primary" strokeWidth={1.5} />
             </motion.div>
 
             <motion.div
-              className="absolute -top-4 -right-8 w-14 h-14 bg-sky-blue rounded-full flex items-center justify-center shadow-card animate-float-slow"
+              className="absolute -top-6 -right-6 w-14 h-14 bg-sky-blue rounded-full flex items-center justify-center shadow-md animate-float-slow"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2 }}
             >
-              <Sparkles className="w-7 h-7 text-primary" />
+              <Sparkles className="w-7 h-7 text-primary" strokeWidth={1.5} />
             </motion.div>
 
             <motion.div
-              className="absolute -bottom-4 -left-12 w-12 h-12 bg-sky-blue rounded-full flex items-center justify-center shadow-card animate-float"
+              className="absolute -bottom-6 -left-6 w-14 h-14 bg-sky-blue rounded-full flex items-center justify-center shadow-md animate-float"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.4 }}
             >
-              <Lightbulb className="w-6 h-6 text-primary" />
+              <Lightbulb className="w-7 h-7 text-primary" strokeWidth={1.5} />
             </motion.div>
 
             <motion.div
-              className="absolute -bottom-4 -right-12 w-14 h-14 bg-soft-pink rounded-full flex items-center justify-center shadow-card animate-float-delayed"
+              className="absolute -bottom-6 -right-6 w-14 h-14 bg-soft-pink rounded-full flex items-center justify-center shadow-md animate-float-delayed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.6 }}
             >
-              <Code className="w-7 h-7 text-primary" />
+              <Code className="w-7 h-7 text-primary" strokeWidth={1.5} />
             </motion.div>
           </motion.div>
 

@@ -9,15 +9,20 @@
 @layer base {
   :root {
     /* Primary Colors */
-    --soft-pink: 350 100% 94%;
-    --soft-pink-dark: 350 80% 85%;
-    --sky-blue: 207 100% 94%;
-    --sky-blue-dark: 207 80% 85%;
-    --navy: 240 76% 29%;
-    --navy-light: 240 60% 40%;
+    --soft-pink: 331 82% 87%; /* #F8C2DC - Baby Pink */
+    --soft-pink-dark: 331 70% 75%;
+    --sky-blue: 211 100% 70%; /* #66B1FF - Sky Blue */
+    --sky-blue-dark: 211 90% 60%;
+    --navy: 225 43% 31%; /* #2D3E72 - Deep Ocean Blue */
+    --navy-light: 225 35% 45%;
+    
+    /* Extended Palette */
+    --soft-azure: 266 100% 83%; /* #CEA9FF */
+    --orange-red: 13 100% 70%; /* #FF8866 */
+    --darker-pink: 329 55% 65%; /* #D478A6 */
     
     /* Service Card Accents */
-    --teal: 174 62% 47%;
+    --teal: 195 100% 60%; /* #33CCFF */
     --teal-foreground: 0 0% 100%;
     --yellow: 45 93% 58%;
     --yellow-foreground: 0 0% 10%;
@@ -26,32 +31,32 @@
     
     /* Base tokens */
     --background: 0 0% 100%;
-    --foreground: 240 76% 29%;
+    --foreground: 225 43% 31%; /* Match Navy */
 
     --card: 0 0% 100%;
-    --card-foreground: 240 76% 29%;
+    --card-foreground: 225 43% 31%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 76% 29%;
+    --popover-foreground: 225 43% 31%;
 
-    --primary: 240 76% 29%;
+    --primary: 225 43% 31%; /* Match Navy */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 350 100% 94%;
-    --secondary-foreground: 240 76% 29%;
+    --secondary: 331 82% 87%; /* Match Soft Pink */
+    --secondary-foreground: 225 43% 31%;
 
-    --muted: 207 100% 94%;
-    --muted-foreground: 240 40% 40%;
+    --muted: 211 100% 70%; /* Match Sky Blue */
+    --muted-foreground: 225 40% 40%;
 
-    --accent: 350 100% 94%;
-    --accent-foreground: 240 76% 29%;
+    --accent: 331 82% 87%;
+    --accent-foreground: 225 43% 31%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 20% 90%;
-    --input: 240 20% 90%;
-    --ring: 240 76% 29%;
+    --border: 225 20% 90%;
+    --input: 225 20% 90%;
+    --ring: 225 43% 31%;
 
     --radius: 1.5rem;
 

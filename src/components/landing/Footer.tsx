@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
+import { BotnoiLogo } from "@/components/ui/botnoi-logo";
 
 export const Footer = () => {
   return (
@@ -12,8 +13,9 @@ export const Footer = () => {
           className="flex flex-col md:flex-row items-center justify-between gap-6"
         >
           <div className="text-center md:text-left">
-            <h3 className="text-2xl font-bold text-background mb-2">
-              BOTNOI<span className="text-soft-pink">.</span>ACADEMY
+            <h3 className="flex items-center justify-center md:justify-start gap-3 text-2xl font-bold text-background mb-2">
+              <BotnoiLogo className="w-8 h-8 text-background" />
+              BOTNOI ACADEMY
             </h3>
             <p className="text-background/60 text-sm">
               Learn together, Play together
