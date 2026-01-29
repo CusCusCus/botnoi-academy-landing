@@ -74,15 +74,15 @@ const Internship = () => {
           setPositions(data);
         } 
         // If data is empty, we keep the fallback positions
-      } catch (error: any) {
+      } catch (error) {
         if (!isMounted) return;
-        
-        // Ignore AbortError which can happen during rapid component mounting/unmounting
-        // Check both error object properties and string representation to be safe
-        const isAbortError = 
-          error.name === 'AbortError' || 
-          error.message?.toLowerCase().includes('aborted') ||
-          String(error).toLowerCase().includes('abort');
+        const name = (error as { name?: string }).name;
+        const messageStr =
+          ((error as { message?: string }).message ?? String(error)).toLowerCase();
+        const isAbortError =
+          name === 'AbortError' ||
+          messageStr.includes('aborted') ||
+          messageStr.includes('abort');
 
         if (isAbortError) {
           return;
@@ -121,8 +121,9 @@ const Internship = () => {
       setIsSuccessOpen(true);
       setFormData({ firstName: "", lastName: "", email: "", position: "" });
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
       console.error('Error submitting application:', error);
-      toast.error("Failed to submit application. Please try again.");
+      toast.error(`Failed to submit application: ${message}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -143,7 +144,7 @@ const Internship = () => {
         
         <Navbar />
         
-        <div className="container mx-auto px-4 pt-40 pb-40">
+        <div className="container mx-auto px-4 pt-28 pb-20 md:pt-40 md:pb-40">
           {/* Animated Mascot Area */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -308,7 +309,7 @@ const Internship = () => {
                     onValueChange={(value) => handleInputChange("position", value)}
                     disabled={isSubmitting}
                   >
-                    <SelectTrigger className="w-full bg-white border-[3px] border-[#BBDEFB] rounded-full h-14 text-primary font-bold focus:ring-2 focus:ring-[#F06292] focus:ring-offset-0">
+                    <SelectTrigger className="w-full bg-white border-[3px] border-[#BBDEFB] rounded-full h-12 md:h-14 text-primary font-bold focus:ring-2 focus:ring-[#F06292] focus:ring-offset-0">
                       <SelectValue placeholder="Position" />
                     </SelectTrigger>
                     <SelectContent>
