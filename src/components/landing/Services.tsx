@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, forwardRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { Play, X, MessageSquare, Mic, Video, FileSearch } from "lucide-react";
@@ -39,7 +39,7 @@ const services = [
   },
 ];
 
-export const Services = () => {
+export const Services = forwardRef<HTMLElement>((_, forwardedRef) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
@@ -138,4 +138,6 @@ export const Services = () => {
       </Dialog>
     </section>
   );
-};
+});
+
+Services.displayName = "Services";
