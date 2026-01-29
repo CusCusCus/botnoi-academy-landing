@@ -1,9 +1,9 @@
-import { useRef, forwardRef } from "react";
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { MapPin, Mail, Phone, Facebook, Linkedin, Instagram } from "lucide-react";
 
-export const Contact = forwardRef<HTMLElement>((_, forwardedRef) => {
+export const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -120,6 +120,4 @@ export const Contact = forwardRef<HTMLElement>((_, forwardedRef) => {
       </div>
     </section>
   );
-});
-
-Contact.displayName = "Contact";
+};
